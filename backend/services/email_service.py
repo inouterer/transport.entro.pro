@@ -24,7 +24,7 @@ class EmailService:
     def __init__(self):
         # Путь к шаблонам
         # templates/ находится в /app/templates/ (не в src/)
-        template_folder = Path(__file__).parent.parent.parent / "templates" / "email"
+        template_folder = Path(__file__).parent.parent / "templates" / "email"
         
         # Конфигурация FastMail
         mail_username = os.environ.get("MAIL_USERNAME", "lic@entro.pro")

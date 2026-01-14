@@ -1,4 +1,4 @@
-import api from './axiosInstance';
+import api from './api';
 
 export interface LoginData {
   email: string;
@@ -42,15 +42,15 @@ class AuthService {
    */
   async login(data: LoginData): Promise<AuthResponse> {
     const response = await api.post<AuthResponse>('/auth/login', data);
-    
+
     // Сохраняем токены и информацию о пользователе
     localStorage.setItem('access_token', response.data.tokens.access_token);
     localStorage.setItem('refresh_token', response.data.tokens.refresh_token);
     localStorage.setItem('user', JSON.stringify(response.data.user));
-    
+
     // Устанавливаем заголовок авторизации для будущих запросов
     this.setAuthorizationHeader(response.data.tokens.access_token);
-    
+
     return response.data;
   }
 
@@ -59,7 +59,7 @@ class AuthService {
    */
   async register(data: RegisterData): Promise<AuthResponse> {
     const response = await api.post<AuthResponse>('/auth/register', data);
-    
+
     // Проверяем, получили ли реальные токены (не пустые)
     if (response.data.tokens.access_token && response.data.tokens.refresh_token) {
       // Только если токены НЕ пустые - сохраняем
@@ -69,7 +69,7 @@ class AuthService {
       this.setAuthorizationHeader(response.data.tokens.access_token);
     }
     // Если токены пустые - НЕ сохраняем, пользователь должен подтвердить email
-    
+
     return response.data;
   }
 
@@ -128,7 +128,7 @@ class AuthService {
     });
 
     const { access_token, refresh_token: new_refresh_token } = response.data;
-    
+
     localStorage.setItem('access_token', access_token);
     localStorage.setItem('refresh_token', new_refresh_token);
 
