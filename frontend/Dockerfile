@@ -9,6 +9,6 @@ RUN npm run build
 # Production stage
 FROM nginx:stable-alpine
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-# WE will need a custom nginx config later for routing
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

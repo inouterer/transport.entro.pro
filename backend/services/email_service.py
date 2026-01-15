@@ -159,7 +159,7 @@ class EmailService:
             greeting = f"Здравствуйте, {user_name}!" if user_name else "Здравствуйте!"
             
             message = MessageSchema(
-                subject="Ваш аккаунт в системе cloud.entro.pro создан",
+                subject="Ваш аккаунт в системе transport.entro.pro создан",
                 recipients=[to],
                 template_body={
                     "greeting": greeting,

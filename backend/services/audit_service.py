@@ -73,11 +73,14 @@ class AuditService:
                 log_data["error"] = error_message
 
             if status == "success":
-                logger.info("Audit log entry created", **log_data)
+                logger.info("audit_log_created", **log_data)
             else:
-                logger.warning("Audit log entry created (with error)", **log_data)
+                logger.warning("audit_log_warning", **log_data)
 
         except Exception as e:
             # Не бросаем исключение выше, чтобы ошибка логирования не прерывала основной процесс
-            logger.error("Failed to create audit log entry", error=str(e), action_type=action_type)
-            db.rollback()
+            try:
+                db.rollback()
+                logger.error("audit_log_failed", error=str(e), action_type=action_type)
+            except Exception:
+                pass
